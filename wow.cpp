@@ -1,6 +1,9 @@
 // ===================== ОБФУСКАЦИЯ СТРОК (COMPILE-TIME XOR) =====================
 #pragma once
+#include <winsock2.h>      // ДО windows.h — иначе конфликт с winsock.h
+#include <ws2tcpip.h>      // для inet_ntoa, sockaddr и т.п.
 #include <windows.h>
+#include <iphlpapi.h>      // для IP_ADAPTER_INFO и GetAdaptersInfo
 #include <string>
 #include <vector>
 #include <thread>
@@ -11,6 +14,10 @@
 #include <wincrypt.h>
 #include <shlobj.h>
 #include <intrin.h>
+
+// Линковка нужных библиотек
+#pragma comment(lib, "iphlpapi.lib")
+#pragma comment(lib, "ws2_32.lib")
 
 namespace obf {
     template<size_t N>
