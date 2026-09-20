@@ -1,0 +1,29 @@
+name: Build C++ EXE
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC (компилятор Microsoft)
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Compile C++ to EXE
+        # Если у вас один файл main.cpp:
+        run: cl /EHsc /O2 /std:c++17 /Fe:my_app.exe wow.cpp
+        # Если файлов несколько, перечислите их:
+        # run: cl /EHsc /O2 /std:c++17 /Fe:my_app.exe main.cpp utils.cpp other.cpp
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-cpp-app
+          path: my_app.exe
